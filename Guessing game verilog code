@@ -1,0 +1,72 @@
+//VERILOG CODE
+
+module gussing_game( Out,Sel,No1,No2,No3,No4,No5,No6,No7,No8); 
+input [7:0]  No1,No2,No3,No4,No5,No6,No7,No8;
+input [2:0] Sel; 
+output [7:0] Out; 
+  reg [7:0] Out; 
+//Check the state of the input lines 
+  always @ (*) 
+begin 
+ case (Sel) 
+  3'b000 : Out = No1; 
+  3'b001 : Out = No2; 
+  3'b010 : Out = No3;   
+  3'b011 : Out = No4; 
+  3'b100 : Out = No5; 
+  3'b101 : Out = No6; 
+  3'b110 : Out = No7; 
+  3'b111 : Out = No8; 
+  default : Out = 8'bx; 
+
+  //If input is undefined then output is undefined 
+
+ endcase 
+end  
+endmodule
+
+
+
+//TESTBENCH
+
+module gussinggame_tb;
+ // Inputs
+  reg [2:0] Sel;
+ reg [7:0] No1,No2,No3,No4,No5,No6,No7,No8;
+ // Outputs
+ wire [7:0] Out;
+  gussing_game uut (Out,Sel,No1,No2,No3,No4,No5,No6,No7,No8);
+
+initial begin
+
+  Sel=3'b000;No1=0;No2=0;No3=0;No4=1;No5=0;No6=0;No7=0;No8=0; 
+  #1 $display("Wrong, Guess no. greater than 0");
+  #10 Sel=3'b001;No1=0;No2=0;No3=0;No4=1;No5=0;No6=0;No7=0;No8=0;
+  #1 $display("Wrong ,Guess no. greater than 1");
+  #10Sel=3'b010;No1=0;No2=0;No3=0;No4=1;No5=0;No6=0;No7=0;No8=0;
+  #1 $display("Wrong ,Guess no. greater than 2");
+  #10 Sel=3'b011;No1=0;No2=0;No3=0;No4=1;No5=0;No6=0;No7=0;No8=0;
+  #1 $display("You Won");
+   #10 Sel=3'b100;No1=0;No2=0;No3=0;No4=1;No5=0;No6=0;No7=0;No8=0;
+  #1 $display("Wrong, Guess no. less than 4");
+   #10 Sel=3'b101;No1=0;No2=0;No3=0;No4=1;No5=0;No6=0;No7=0;No8=0;
+  #1 $display("Wrong ,Guess no. less than 5");
+   #10 Sel=3'b110;No1=0;No2=0;No3=0;No4=1;No5=0;No6=0;No7=0;No8=0;
+  #1 $display("Wrong ,Guess no. less than 6");
+   #10 Sel=3'b111;No1=0;No2=0;No3=0;No4=1;No5=0;No6=0;No7=0;No8=0;
+  #1 $display("Wrong, Guess no. less than 7");
+#10$finish();
+ 
+end
+ 
+  initial
+          begin
+            $monitor($time,Sel,No1,No2,No3,No4,No5,No6,No7,No8,Out);
+            $dumpfile("dump.vcd");
+            $dumpvars;
+          end
+ 
+endmodule
+
+
+
